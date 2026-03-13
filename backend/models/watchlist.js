@@ -27,9 +27,12 @@ const watchlistSchema = mongoose.Schema({
         type: String,
     }
 }, 
-{ 
+{
     timestamps: true
 })
 
+// How the schema should be called
 const WatchlistItem = mongoose.model("WatchlistItem", watchlistSchema)
+
+// Exporting the schema
 export default WatchlistItem
