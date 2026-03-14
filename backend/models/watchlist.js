@@ -32,7 +32,7 @@ const watchlistSchema = mongoose.Schema({
 })
 
 // How the schema should be called
-const WatchlistItem = mongoose.model("WatchlistItem", watchlistSchema)
+const WatchlistItem = mongoose.model("WatchlistItem", watchlistSchema);
 
 // Exporting the schema
-export default WatchlistItem
+export default WatchlistItem;

@@ -36,4 +36,4 @@ const BriefSchema = new mongoose.Schema({
 const BriefingNote = mongoose.model("BriefingNote", BriefSchema);
 
 // Exporting the schema
-export default BriefingNote
+export default BriefingNote;

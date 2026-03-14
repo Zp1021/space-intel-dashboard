@@ -5,11 +5,11 @@ import mongoose from "mongoose";
 async function connectDb() {
     try {
         await mongoose.connect(process.env.MONGO_URL)
-        console.log('MongoDB connected')
+        console.log('MongoDB connected');
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 }
 
 // Exports connect function for use in index.js
-export default connectDb
+export default connectDb;
