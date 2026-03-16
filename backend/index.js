@@ -19,6 +19,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/api/health", (req, res) => res.json({ ok: true }));
+
 // Env variable for LL2 API base URL
 const ll2Base = process.env.LL2_BASE;
 
