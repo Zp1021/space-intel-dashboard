@@ -19,7 +19,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Env variable for API base URL
+// Env variable for LL2 API base URL
 const ll2Base = process.env.LL2_BASE;
 
 // Endpoints
@@ -53,3 +53,51 @@ app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
     connectDb();
  });
+
+// Env variable for SpaceX API base URL
+const spacexBase = process.env.SPACEX_BASE;
+
+app.get("/api/enrich/spacex", async (req, res) => {
+  try {
+    const { name, date } = req.query;
+    if (!name) return res.status(400).json({ error: "Missing name" });
+
+    // Use SpaceX /launches/query to search by name keyword
+    const queryBody = {
+      query: {
+        name: { $regex: name, $options: "i" }
+      },
+      options: { limit: 5 }
+    };
+
+    const q = await axios.post(`${SPACEX_BASE}/launches/query`, queryBody);
+    const docs = q.data?.docs || [];
+    if (!docs.length) return res.json({ found: false });
+
+    // If we have a date, pick the closest launch date
+    let best = docs[0];
+    if (date) {
+      const target = new Date(date).getTime();
+      best = docs.reduce((acc, cur) => {
+        const a = Math.abs(new Date(acc.date_utc).getTime() - target);
+        const b = Math.abs(new Date(cur.date_utc).getTime() - target);
+        return b < a ? cur : acc;
+      }, docs[0]);
+    }
+
+    // Fetch rocket name (optional)
+    let rocket = null;
+    if (best.rocket) {
+      const rr = await axios.get(`${spacexBase}/rockets/${best.rocket}`);
+      rocket = rr.data;
+    }
+
+    res.json({
+      found: true,
+      launch: best,
+      rocket,
+    });
+  } catch (e) {
+    res.status(500).json({ error: "Failed to enrich SpaceX data" });
+  }
+});
