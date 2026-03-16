@@ -47,13 +47,6 @@ app.get("/api/launches/:id", async (req, res) => {
   }
 });
 
-
-// Port for express server to listen on and connect to DB
-app.listen(port, () => {
-    console.log(`Listening on port: ${port}`);
-    connectDb();
- });
-
 // Env variable for SpaceX API base URL
 const spacexBase = process.env.SPACEX_BASE;
 
@@ -61,7 +54,7 @@ app.get("/api/enrich/spacex", async (req, res) => {
   try {
     const { name, date } = req.query;
     if (!name) return res.status(400).json({ error: "Missing name" });
-
+    
     // Use SpaceX /launches/query to search by name keyword
     const queryBody = {
       query: {
@@ -69,11 +62,11 @@ app.get("/api/enrich/spacex", async (req, res) => {
       },
       options: { limit: 5 }
     };
-
+    
     const q = await axios.post(`${SPACEX_BASE}/launches/query`, queryBody);
     const docs = q.data?.docs || [];
     if (!docs.length) return res.json({ found: false });
-
+    
     // If we have a date, pick the closest launch date
     let best = docs[0];
     if (date) {
@@ -84,14 +77,14 @@ app.get("/api/enrich/spacex", async (req, res) => {
         return b < a ? cur : acc;
       }, docs[0]);
     }
-
+    
     // Fetch rocket name (optional)
     let rocket = null;
     if (best.rocket) {
       const rr = await axios.get(`${spacexBase}/rockets/${best.rocket}`);
       rocket = rr.data;
     }
-
+    
     res.json({
       found: true,
       launch: best,
@@ -103,6 +96,7 @@ app.get("/api/enrich/spacex", async (req, res) => {
 });
 
 // Watchlist endpoints
+// POST a new watchlist item
 app.post("/api/watchlist", async (req, res) => {
   try {
     const item = await WatchlistItem.create(req.body);
@@ -112,6 +106,7 @@ app.post("/api/watchlist", async (req, res) => {
   }
 });
 
+// GET all watchlist items
 app.get("/api/watchlist", async (req, res) => {
   try {
     const items = await WatchlistItem.find().sort({ createdAt: -1 });
@@ -121,6 +116,7 @@ app.get("/api/watchlist", async (req, res) => {
   }
 });
 
+// DELETE a watchlist item by ID
 app.delete("/api/watchlist/:id", async (req, res) => {
   try {
     await WatchlistItem.findByIdAndDelete(req.params.id);
@@ -129,3 +125,30 @@ app.delete("/api/watchlist/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete watchlist item" });
   }
 });
+
+// briefing notes endpoints
+// POST a new briefing note
+app.post("/api/briefs", async (req, res) => {
+  try {
+    const note = await BriefingNote.create(req.body);
+    res.json(note);
+  } catch (e) {
+    res.status(500).json({ error: "Failed to save briefing note" });
+  }
+});
+
+// GET briefing notes for a specific launch
+app.get("/api/briefs/:launchId", async (req, res) => {
+  try {
+    const notes = await BriefingNote.find({ launchId: req.params.launchId }).sort({ updatedAt: -1 });
+    res.json(notes);
+  } catch (e) {
+    res.status(500).json({ error: "Failed to fetch briefing notes" });
+  }
+});
+
+// Port for express server to listen on and connect to DB
+app.listen(port, () => {
+    console.log(`Listening on port: ${port}`);
+    connectDb();
+ });
