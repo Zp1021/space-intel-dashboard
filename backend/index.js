@@ -101,3 +101,31 @@ app.get("/api/enrich/spacex", async (req, res) => {
     res.status(500).json({ error: "Failed to enrich SpaceX data" });
   }
 });
+
+// Watchlist endpoints
+app.post("/api/watchlist", async (req, res) => {
+  try {
+    const item = await WatchlistItem.create(req.body);
+    res.json(item);
+  } catch (e) {
+    res.status(500).json({ error: "Failed to save watchlist item" });
+  }
+});
+
+app.get("/api/watchlist", async (req, res) => {
+  try {
+    const items = await WatchlistItem.find().sort({ createdAt: -1 });
+    res.json(items);
+  } catch (e) {
+    res.status(500).json({ error: "Failed to fetch watchlist" });
+  }
+});
+
+app.delete("/api/watchlist/:id", async (req, res) => {
+  try {
+    await WatchlistItem.findByIdAndDelete(req.params.id);
+    res.json({ deleted: true });
+  } catch (e) {
+    res.status(500).json({ error: "Failed to delete watchlist item" });
+  }
+});
