@@ -1,8 +1,51 @@
-
-.nav{
+body {
+  background-color: #6E1807;
+}
+h1 {
+    color: lightgoldenrodyellow;
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 2rem;
+    font-family: sans-serif;
+}
+/* Navbar styling */
+.nav {
+    background-color: lightgoldenrodyellow;
+    color: black;
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0 1rem;
+}
+
+/* Styles the home button*/
+.home{
+    font-size: 3rem;
+}
+
+/* Styles the navbar and unordered list */
+.nav ul {
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Styles the links on the navbar */
+.nav a {
+    color: black;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: .25rem;
+    font-size: 2rem;
+}
+
+/* Colors the background in a lighter color and bolds the text for better visability  */
+.nav li:hover {
+    background-color: wheat;
+    font-weight: bolder;
 }
 
 /* .counter {
