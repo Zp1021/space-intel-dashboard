@@ -1,4 +1,11 @@
-.counter {
+
+.nav{
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* .counter {
   font-size: 16px;
   padding: 5px 10px;
   border-radius: 5px;
@@ -181,4 +188,4 @@
     right: 0;
     border-right-color: var(--border);
   }
-}
+} */

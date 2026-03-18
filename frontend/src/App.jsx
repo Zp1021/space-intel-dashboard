@@ -1,17 +1,19 @@
 // Importing styles
 import './App.css'
 
+import MainPage from './pages/MainPage';
+
 // Import routing props to allow traversal through pages
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
-  //const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <h1>Hello World</h1>
-      </div>
+    {/* Routing to the various pages of the application */}
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/*' element={<Navigate to='/' />} />
+      </Routes>
     </>
   )
 }
