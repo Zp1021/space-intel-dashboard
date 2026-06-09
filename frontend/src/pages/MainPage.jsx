@@ -1,3 +1,4 @@
+import DropdownNavbar from "../components/Dropdown";
 import NavBar from "../components/NavBar";
 
 export default function MainPage() {
