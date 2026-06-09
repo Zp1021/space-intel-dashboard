@@ -15,13 +15,19 @@ and frontend.
 
 ## Running it locally
 Backend:
+```
 cd backend
 npm install
 npm start
+```
+
 Frontend:
+```
 cd frontend
 npm install
 npm run dev
+```
+
 You'll need a MongoDB connection string in a .env file in the backend folder.
 See backend/.env.example for the variables it expects.
 
