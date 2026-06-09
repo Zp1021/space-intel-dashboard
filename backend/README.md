@@ -5,7 +5,7 @@ APIs, stores it in MongoDB, and serves it to the frontend.
 ## Setup
 ```
  npm install
- npm run
+ npm start
 ```
 Create a .env file in this folder before starting. It needs:
 ```
