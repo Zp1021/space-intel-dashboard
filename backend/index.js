@@ -65,7 +65,7 @@ app.get("/api/enrich/spacex", async (req, res) => {
       options: { limit: 5 }
     };
     
-    const q = await axios.post(`${SPACEX_BASE}/launches/query`, queryBody);
+    const q = await axios.post(`${spacexBase}/launches/query`, queryBody);
     const docs = q.data?.docs || [];
     if (!docs.length) return res.json({ found: false });
     
