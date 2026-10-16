@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
+import axios from "axios";
 import 'dotenv/config'
 import connectDb from "./db.js";
 import WatchlistItem from "./models/watchlist.js";
+import BriefingNote from "./models/brief.js";
 
 // Initializing server
 const app = express();
@@ -40,8 +42,8 @@ app.get("/api/launches/upcoming", async (req, res) => {
 // GET launch by ID from api
 app.get("/api/launches/:id", async (req, res) => {
   try {
-    const { id } = req.params.id;
-    const url = `${ll2Base}/launch/${id}`;
+    const { id } = req.params;
+    const url = `${ll2Base}/launch/${id}/`;
     const r = await axios.get(url);
     res.json(r.data);
   } catch (e) {

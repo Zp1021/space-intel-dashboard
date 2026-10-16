@@ -4,8 +4,7 @@ import mongoose from "mongoose";
 const BriefSchema = new mongoose.Schema({
     launchId: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     title: {
         type: String,
