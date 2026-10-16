@@ -1,7 +1,9 @@
 # Aerospace Mission Analytics Platform
-A full-stack dashboard for tracking upcoming and past space launches. It pulls
-live data from the Launch Library 2 and SpaceX APIs, stores it in MongoDB, and
-serves it through an Express API to a React front end.
+A full-stack dashboard for tracking upcoming space launches. An Express API
+pulls live data from the Launch Library 2 and SpaceX APIs and serves it to a
+React front end. Launches you save to the watchlist and the briefing notes you
+write are stored in MongoDB.
+
 I built this to practice keeping a real application maintained over time rather
 than building something once and abandoning it: handling external API changes,
 keeping stored data in sync, and structuring a project as a separate backend
@@ -18,19 +20,22 @@ Backend:
 ```
 cd backend
 npm install
+cp .env.example .env
 npm start
 ```
+Open backend/.env and set MONGO_URL to your MongoDB connection string.
 
-Frontend:
+Frontend (in a second terminal):
 ```
 cd frontend
 npm install
+cp .env.example .env
 npm run dev
 ```
-
-You'll need a MongoDB connection string in a .env file in the backend folder.
-See backend/.env.example for the variables it expects.
+frontend/.env tells the react app where the backend is running
+(https://localhost:5000 by default).
 
 ## Status
-Active. Currently adding pages and components on the frontend and expanding
-test coverage on the backend.
+Working: upcoming launch list with search and provider filter, launch detail page, watchlist, and briefing notes
+
+Next: automated tests for the API routes.
