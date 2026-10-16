@@ -26,10 +26,7 @@ export default function NavBar() {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li>
-                <Link to="/launchdetail">Details</Link>
-              </li>
-              <li>
-                <Link to="/briefnotes">BriefNotes</Link>
+                <Link to="/watchlist">Watchlist</Link>
               </li>
             </ul>
           )}

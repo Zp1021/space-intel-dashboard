@@ -55,7 +55,7 @@ export default function LaunchDetail() {
 
   return (
     <div>
-      <Link to="/">← Back</Link>
+      <Link to="/dashboard">← Back</Link>
       <h3>{launch.name}</h3>
 
       <div><b>Date:</b> {launch.net}</div>

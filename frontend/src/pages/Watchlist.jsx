@@ -9,7 +9,7 @@ export default function Watchlist() {
   function load() {
     fetch(`${API}/api/watchlist`)
       .then(r => r.json())
-      .then(d => setItems(d || []));
+      .then(d => setItems(Array.isArray(d) ? d : []));
   }
 
   useEffect(() => { load(); }, []);

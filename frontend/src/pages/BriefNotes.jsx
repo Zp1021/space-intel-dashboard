@@ -16,7 +16,7 @@ export default function BriefNotes() {
   function load() {
     fetch(`${API}/api/briefs/${launchId}`)
       .then(r => r.json())
-      .then(d => setNotes(d || []));
+      .then(d => setNotes(Array.isArray(d) ? d :[]));
   }
 
   useEffect(() => { load(); }, [launchId]);

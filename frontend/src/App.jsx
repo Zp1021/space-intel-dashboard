@@ -17,9 +17,9 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/launchdetail' element={<LaunchDetail />} />
+        <Route path='/launch/:id' element={<LaunchDetail />} />
         <Route path='/watchlist' element={<Watchlist />} />
-        <Route path='/briefnotes' element={<BriefNotes />} />
+        <Route path='/brief/:launchId' element={<BriefNotes />} />
         <Route path='/*' element={<Navigate to='/' />} />
       </Routes>
     </>
