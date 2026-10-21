@@ -1,7 +1,7 @@
 // Importing mongoose
 import mongoose from "mongoose";
 
-const watchlistSchema = mongoose.Schema({
+const watchlistSchema = new mongoose.Schema({
     launchId: {
         type: String,
         required: true,
