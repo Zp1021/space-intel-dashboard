@@ -1,5 +1,13 @@
 body {
   background-color: #6E1807;
+  color: lightgoldenrodyellow;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* Links on the dark background */
+a {
+  color: #ffd27f;
 }
 
 h1 {
@@ -116,6 +124,8 @@ h3 {
 
 #launch-div {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   margin-top: 12px;
   margin-bottom: 12px;
@@ -129,13 +139,17 @@ h3 {
 }
 
 #results-div {
+  text-align: center;
   color: lightgoldenrodyellow;
   font-size: 1.85rem;
   margin-bottom: 2rem;
 }
 
 #launch-list {
-  padding-left: 18px;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -143,8 +157,13 @@ h3 {
 
 #launch-list li {
   background-color: lightgoldenrodyellow;
+  color: black;
   padding: 1rem;
   border-radius: 5px;
+}
+
+#launch-list a {
+  color: #6E1807;
 }
 
 /* =========================
@@ -154,7 +173,7 @@ h3 {
 .briefing-div {
   display: grid;
   gap: 10px;
-  max-width: 720;
+  max-width: 720px;
 }
 
 .save-btn {
@@ -163,4 +182,64 @@ h3 {
 
 .brief-h4 {
   margin-top: 18px;
+}
+
+/* =========================
+   PAGES, CARDS AND MESSAGES
+========================= */
+
+.intro {
+  text-align: center;
+  font-size: 1.25rem;
+  max-width: 640px;
+  margin: 1rem auto;
+}
+
+/* Light panel used on the launch detail and briefing pages */
+.card {
+  background-color: lightgoldenrodyellow;
+  color: black;
+  width: min(820px, calc(100% - 32px));
+  box-sizing: border-box;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.card a {
+  color: #6E1807;
+}
+
+.launch-name {
+  font-size: 1.6rem;
+  margin: 0.75rem 0;
+}
+
+.brief-note {
+  border: 1px solid #c9b98b;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.brief-date {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.status-msg,
+.error-msg {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 1.5rem auto;
+  max-width: 640px;
+}
+
+.error-msg {
+  background-color: #fbe3dd;
+  color: #6E1807;
+  padding: 1rem;
+  border-radius: 6px;
 }

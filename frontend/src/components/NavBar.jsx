@@ -11,22 +11,27 @@ export default function NavBar() {
         Home
       </Link>
 
-      <ul className="nav-links">        
-        {/* Dropdown Menu */}
+      <ul className="nav-links">
+        {/* Dropdown menu: opens on click, tap or keyboard; closes when the mouse leaves */}
         <li
           className="dropdown"
-          onMouseEnter={() => setOpenDropdown(true)}
           onMouseLeave={() => setOpenDropdown(false)}
         >
-          <button className="dropdown-btn">Pages ▼</button>
+          <button
+            className="dropdown-btn"
+            aria-expanded={openDropdown}
+            onClick={() => setOpenDropdown(open => !open)}
+          >
+            Pages ▼
+          </button>
 
           {openDropdown && (
             <ul className="dropdown-menu">
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/dashboard" onClick={() => setOpenDropdown(false)}>Dashboard</Link>
               </li>
               <li>
-                <Link to="/watchlist">Watchlist</Link>
+                <Link to="/watchlist" onClick={() => setOpenDropdown(false)}>Watchlist</Link>
               </li>
             </ul>
           )}

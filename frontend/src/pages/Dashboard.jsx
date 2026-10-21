@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { formatDate, readJson } from "../format";
 
 // Get API URL from environment variables
 const API = import.meta.env.VITE_API_URL;
@@ -8,16 +9,20 @@ const API = import.meta.env.VITE_API_URL;
 // Dashboard page to display upcoming launches with search and filter functionality
 export default function Dashboard() {
 
-  // State for launch items, search query, and provider filter
+  // State for launch items, search query, provider filter, and loading/error status
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");
   const [providerOnly, setProviderOnly] = useState("ALL");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // Fetch upcoming launches on component mount
   useEffect(() => {
     fetch(`${API}/api/launches/upcoming?limit=50`)
-      .then(r => r.json())
-      .then(d => setItems(d.results || []));
+      .then(readJson)
+      .then(d => setItems(d.results || []))
+      .catch(() => setError("Launch data is unavailable right now. Please try again in a few minutes."))
+      .finally(() => setLoading(false));
   }, []);
 
   // Filter items based on search query and provider selection
@@ -44,39 +49,50 @@ export default function Dashboard() {
     return ["ALL", ...Array.from(set).sort()];
   }, [items]);
 
-return (
-  <div>
-    <h3>Upcoming Launches</h3>
-    <NavBar />
+  return (
+    <div>
+      <NavBar />
+      <h3>Upcoming Launches</h3>
 
-    {/* Search and filter controls */}
-    <div id="launch-div">
-      <input
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder="Search mission name..."
-      />
+      {/* Search and filter controls */}
+      <div id="launch-div">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search mission name..."
+          aria-label="Search mission name"
+        />
 
-      {/* Provider dropdown */}
-      <select value={providerOnly} onChange={(e) => setProviderOnly(e.target.value)} style={{ padding: 10 }}>
-        {providers.map(p => <option key={p} value={p}>{p}</option>)}
-      </select>
+        {/* Provider dropdown */}
+        <select
+          value={providerOnly}
+          onChange={(e) => setProviderOnly(e.target.value)}
+          aria-label="Filter by provider"
+          style={{ padding: 10 }}
+        >
+          {providers.map(p => <option key={p} value={p}>{p === "ALL" ? "All providers" : p}</option>)}
+        </select>
+      </div>
+
+      {loading && <div className="status-msg">Loading launches...</div>}
+
+      {/* Shown only when the launch data could not be loaded */}
+      {error && <div className="error-msg">{error}</div>}
+
+      {/* Results count */}
+      {!loading && !error && <div id="results-div">Results: {filtered.length}</div>}
+
+      {/* Launch items */}
+      <ul id="launch-list">
+        {filtered.map(it => (
+          <li key={it.id}>
+            <Link to={`/launch/${it.id}`}><b>{it.name}</b></Link>
+            <div>Date: {formatDate(it.net)}</div>
+            <div>Provider: {it.launch_service_provider?.name}</div>
+            <div>Location: {it.pad?.location?.name}</div>
+          </li>
+        ))}
+      </ul>
     </div>
-    
-    {/* Results count */}
-    <div id="results-div">Results: {filtered.length}</div>
-
-    {/* Launch items */}
-    <ul id="launch-list">
-      {filtered.map(it => (
-        <li key={it.id}>
-          <Link to={`/launch/${it.id}`}><b>{it.name}</b></Link>
-          <div>Date: {it.net}</div>
-          <div>Provider: {it.launch_service_provider?.name}</div>
-          <div>Location: {it.pad?.location?.name}</div>
-        </li>
-      ))}
-    </ul>
-  </div>
   );
 }
